@@ -23,7 +23,7 @@ struct Customer {
     double service_start;  
     double wait_queue;     
     double service_end;    
-    double sojourn;        
+    double system_time;        
 };
 
 // Sample X ~ U(a, b) using inverse-transform 
@@ -67,7 +67,7 @@ vector<Customer> simulate(int n,
         customers[i].service_end = customers[i].service_start + customers[i].service_time;
 
         // Step 7: sojourn time, W_i = F_i - A_i  (= W_{q,i} + T_{S,i})
-        customers[i].sojourn = customers[i].service_end - arrival_clock;
+        customers[i].system_time = customers[i].service_end - arrival_clock;
 
         // Advance server free time for the next customer
         server_free = customers[i].service_end;
@@ -84,19 +84,19 @@ void print_stats(const vector<Customer>& c) {
     for (const auto& x : c) {
         sum_wq += x.wait_queue;
         sum_ts += x.service_time;
-        sum_w  += x.sojourn;
+        sum_w  += x.system_time;
     }
 
     double avg_wait    = sum_wq / n;                          // W_bar_q
     double avg_service = sum_ts / n;                          // S_bar
-    double avg_sojourn = sum_w  / n;                          // W_bar
+    double avg_system_time = sum_w  / n;                          // W_bar
     double utilisation = sum_ts / c.back().service_end;       // rho
 
     cout << fixed << setprecision(4);
     cout << "\n=== Queue Statistics ===\n";
     cout << "Avg queue wait    (Wq) : " << avg_wait    << " min\n";
     cout << "Avg service time  (S)  : " << avg_service << " min\n";
-    cout << "Avg sojourn time  (W)  : " << avg_sojourn << " min\n";
+    cout << "Avg system time  (W)  : " << avg_system_time << " min\n";
     cout << "Server utilisation(rho): " << utilisation * 100 << " %\n";
     cout << "Max queue wait observed: "
          << max_element(c.begin(), c.end(),
@@ -113,7 +113,7 @@ int main() {
     int    n;
     unsigned seed;
 
-    cout << "=== Bank Queue Simulator ===\n";
+    cout << " Bank Queue Simulator \n";
     cout << "Inter-arrival  lower bound a1 (e.g. 1): "; cin >> a1;
     cout << "Inter-arrival  upper bound b1 (e.g. 8): "; cin >> b1;
     cout << "Service time   lower bound a2 (e.g. 1): "; cin >> a2;
@@ -137,7 +137,7 @@ int main() {
          << setw(10) << "SvcStart"
          << setw(10) << "WaitQ"
          << setw(10) << "SvcEnd"
-         << setw(10) << "Sojourn"
+         << setw(10) << "System_time"
          << "\n";
     cout << string(74, '-') << "\n";
 
@@ -150,7 +150,7 @@ int main() {
              << setw(10) << x.service_start
              << setw(10) << x.wait_queue
              << setw(10) << x.service_end
-             << setw(10) << x.sojourn
+             << setw(10) << x.system_time
              << "\n";
     }
 
