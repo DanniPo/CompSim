@@ -2,7 +2,7 @@
 // and uniform service U(a2,b2). All times in minutes.
 //
 // Compile : g++ -std=c++17 -O2 -o banksim banksim.cpp
-// Run     : ./banksim     (then answer the prompts)
+// Run     : ./banksim    
 
 #include <iostream>
 #include <iomanip>
@@ -14,26 +14,26 @@
 #include <string>
 using namespace std;
 
-// ─── Data structure for one customer ──────────────────
+
 struct Customer {
     int    id;
-    double interarrival;   // T_{A,i} ~ U(a1,b1)
-    double arrival;        // A_i = A_{i-1} + T_{A,i}
-    double service_time;   // T_{S,i} ~ U(a2,b2)
-    double service_start;  // SS_i = max(A_i, F_{i-1})
-    double wait_queue;     // W_{q,i} = SS_i - A_i
-    double service_end;    // F_i = SS_i + T_{S,i}
-    double sojourn;        // W_i = F_i - A_i
+    double interarrival;   
+    double arrival;        
+    double service_time;   
+    double service_start;  
+    double wait_queue;     
+    double service_end;    
+    double sojourn;        
 };
 
-// ─── Sample X ~ U(a, b) using inverse-transform ───────
+// Sample X ~ U(a, b) using inverse-transform 
 // Equation: X = a + U(0,1) * (b - a)
 double uniform_sample(mt19937& rng, double a, double b) {
     uniform_real_distribution<double> dist(a, b);
     return dist(rng);
 }
 
-// ─── Core simulation loop ──────────────────────────────
+// Core simulation loop 
 vector<Customer> simulate(int n,
                            double a1, double b1,   // inter-arrival bounds
                            double a2, double b2,   // service time bounds
@@ -76,7 +76,7 @@ vector<Customer> simulate(int n,
     return customers;
 }
 
-// ─── Compute and print aggregate statistics ───────────
+//  Compute and print aggregate statistics 
 void print_stats(const vector<Customer>& c) {
     int n = (int)c.size();
 
@@ -107,7 +107,7 @@ void print_stats(const vector<Customer>& c) {
          << ")\n";
 }
 
-// ─── Main: interactive input / output window ──────────
+//  Main: interactive input / output window 
 int main() {
     double a1, b1, a2, b2;
     int    n;
