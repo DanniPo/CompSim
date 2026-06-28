@@ -129,7 +129,7 @@ int main() {
 
     auto customers = simulate(n, a1, b1, a2, b2, seed);
 
-    // ─── Output table ────────────────────────────────
+    // Output table 
     cout << "\n" << setw(4)  << "#"
          << setw(10) << "Interarr"
          << setw(10) << "Arrival"
